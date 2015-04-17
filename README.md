@@ -5,5 +5,5 @@ Dump all MySQL databases in separate files
 ## Usage
 
 ```bash
-bash <(curl -sL http://git.io/vvRgp)
+bash <(curl -sL http://git.io/vvyfd)
 ```
