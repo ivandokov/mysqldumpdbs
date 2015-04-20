@@ -46,5 +46,5 @@ while true; do
 done
 
 for db in $DATABASES; do
-	MYSQL_PWD=${MYSQL_PASS} mysqldump --user ${MYSQL_USER} --single-transaction --quick --extended-insert $db | gzip > $DIR/mysql_$db.sql.gz
+	MYSQL_PWD=${MYSQL_PASS} mysqldump --user ${MYSQL_USER} --single-transaction --quick --skip-comments --compact --extended-insert --databases $db | gzip > $DIR/mysql_$db.sql.gz
 done
