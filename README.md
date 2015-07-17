@@ -9,7 +9,7 @@ Dump all MySQL databases in separate files
 Run the script from remote host (Github)
 
 ```bash
-bash <(curl -sL http://git.io/vvyfd)
+curl -sL http://git.io/vvyfd | bash -
 ```
 
 #### Option 2
