@@ -29,7 +29,7 @@ function CollectData {
 		fi
 	done
 
-	echo -n "MySQL password: "
+	echo -n "MySQL pass: "
 	read -s MYSQL_PASS
 	echo ""
 
@@ -48,12 +48,38 @@ while true; do
 	fi
 done
 
+function preloader {
+	echo ""
+
+	while true; do
+		printf '\033[K   Exporting...\r'
+		sleep .5
+		printf '\033[K   Exporting\r'
+		sleep .5
+		printf '\033[K   Exporting.\r'
+		sleep .5
+		printf '\033[K   Exporting..\r'
+		sleep .5
+	done
+
+	echo ""
+}
+
+preloader &
+preloader_pid=$!
+disown
+
 for db in $DATABASES; do
 	MYSQL_PWD=${MYSQL_PASS} mysqldump --host ${MYSQL_HOST} --user ${MYSQL_USER} --single-transaction --quick --skip-comments --compact --extended-insert --databases $db | gzip > $DIR/mysql_$db.sql.gz
 done
 
+kill $preloader_pid
+
+echo ""
 echo ""
 echo -e "\033[00;32mExport is complete\033[00m"
 echo ""
 echo "To import database use the following command:"
+echo ""
 echo -e "\033[00;33mzcat database.sql.gz | mysql -u user -p\033[00m"
+echo ""
