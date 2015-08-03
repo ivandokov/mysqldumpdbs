@@ -70,7 +70,7 @@ preloader_pid=$!
 disown
 
 for db in $DATABASES; do
-	MYSQL_PWD=${MYSQL_PASS} mysqldump --host ${MYSQL_HOST} --user ${MYSQL_USER} --single-transaction --quick --skip-comments --compact --extended-insert --databases $db | gzip > $DIR/mysql_$db.sql.gz
+	MYSQL_PWD=${MYSQL_PASS} mysqldump --host ${MYSQL_HOST} --user ${MYSQL_USER} --single-transaction --quick --skip-comments --extended-insert --databases $db | gzip > $DIR/mysql_$db.sql.gz
 done
 
 kill $preloader_pid
