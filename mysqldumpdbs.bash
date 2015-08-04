@@ -40,6 +40,9 @@ function CollectData {
 	fi
 }
 
+echo -n "Do you want to gzip the export [Y/n]: "
+read GZ
+
 while true; do
 	if $VALID_AUTH; then
 		break
@@ -70,7 +73,16 @@ preloader_pid=$!
 disown
 
 for db in $DATABASES; do
-	MYSQL_PWD=${MYSQL_PASS} mysqldump --host ${MYSQL_HOST} --user ${MYSQL_USER} --single-transaction --quick --skip-comments --extended-insert --databases $db | gzip > $DIR/mysql_$db.sql.gz
+	MYSQL_PWD=${MYSQL_PASS} mysqldump \
+		--host ${MYSQL_HOST} \
+		--user ${MYSQL_USER} \
+		--single-transaction \
+		--quick \
+		--skip-comments \
+		--extended-insert \
+		--routines \
+		--triggers \
+		--databases $db | gzip > $DIR/mysql_$db.sql.gz
 done
 
 kill $preloader_pid
