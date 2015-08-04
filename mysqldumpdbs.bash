@@ -42,6 +42,11 @@ function CollectData {
 
 echo -n "Do you want to gzip the export [Y/n]: "
 read GZ
+if [ -z $GZ ] || [ $GZ = 'y' ] || [ $GZ = 'Y' ]; then
+	GZIP=true
+else
+	GZIP=false
+fi
 
 while true; do
 	if $VALID_AUTH; then
@@ -73,16 +78,29 @@ preloader_pid=$!
 disown
 
 for db in $DATABASES; do
-	MYSQL_PWD=${MYSQL_PASS} mysqldump \
-		--host ${MYSQL_HOST} \
-		--user ${MYSQL_USER} \
-		--single-transaction \
-		--quick \
-		--skip-comments \
-		--extended-insert \
-		--routines \
-		--triggers \
-		--databases $db | gzip > $DIR/mysql_$db.sql.gz
+	if $GZIP; then
+		MYSQL_PWD=${MYSQL_PASS} mysqldump \
+			--host ${MYSQL_HOST} \
+			--user ${MYSQL_USER} \
+			--single-transaction \
+			--quick \
+			--skip-comments \
+			--extended-insert \
+			--routines \
+			--triggers \
+			--databases $db | gzip > $DIR/mysql_$db.sql.gz
+	else
+		MYSQL_PWD=${MYSQL_PASS} mysqldump \
+			--host ${MYSQL_HOST} \
+			--user ${MYSQL_USER} \
+			--single-transaction \
+			--quick \
+			--skip-comments \
+			--extended-insert \
+			--routines \
+			--triggers \
+			--databases $db > $DIR/mysql_$db.sql
+	fi
 done
 
 kill $preloader_pid
@@ -93,5 +111,9 @@ echo -e "\033[00;32mExport is complete\033[00m"
 echo ""
 echo "To import database use the following command:"
 echo ""
-echo -e "\033[00;33mzcat database.sql.gz | mysql -u user -p\033[00m"
+if $GZIP; then
+	echo -e "\033[00;33mzcat database.sql.gz | mysql -u user -p\033[00m"
+else
+	echo -e "\033[00;33mcat database.sql | mysql -u user -p\033[00m"
+fi
 echo ""
