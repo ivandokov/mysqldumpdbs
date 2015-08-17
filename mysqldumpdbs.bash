@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 umask 007
 
 DIR=$(pwd)
