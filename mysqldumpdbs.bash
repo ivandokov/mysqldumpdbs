@@ -7,6 +7,7 @@ DIR=$(pwd)
 
 if [ ! -w "${DIR}" ]; then
 	echo "The current directory is not writable!"
+	exit 1
 fi
 
 VALID_AUTH=false
