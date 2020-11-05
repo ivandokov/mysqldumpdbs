@@ -1,6 +1,7 @@
 # mysqldumpdbs
 
-Dump all MySQL databases in separate files
+Dump all MySQL databases in separate files.  
+Read the [blog post](https://dokov.bg/mysqldumpdbs) about this tool.
 
 ## Usage
 ### wget
