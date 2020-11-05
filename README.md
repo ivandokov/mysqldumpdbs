@@ -5,12 +5,12 @@ Dump all MySQL databases in separate files
 ## Usage
 ### wget
 ```bash
-bash <(wget -qO- http://git.io/vvyfd)
+bash <(wget -qO- https://github.com/ivandokov/mysqldumpdbs/blob/master/mysqldumpdbs.bash)
 ```
 
 ### curl
 ```bash
-bash <(curl -sL http://git.io/vvyfd)
+bash <(curl -sL https://github.com/ivandokov/mysqldumpdbs/blob/master/mysqldumpdbs.bash)
 ```
 ### manually
 ```bash
